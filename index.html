@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المخزون والحسابات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesom    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="enhanced_login.css" rel="stylesheet">
+    <link href="enhanced_dashboard.css" rel="stylesheet">        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --secondary: #10b981;
+            --secondary-dark: #0d946e;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-item {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item:before {
+            content: '';
+            position: absolute;
+            right: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .nav-item:hover:before {
+            right: 100%;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(79, 70, 229, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+        }
+        
+        .input-field {
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: all 0.4s ease;
+        }
+        
+        .btn:hover:after {
+            transform: translateX(0);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--secondary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, var(--danger-dark), var(--danger));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+        
+        .table-row:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.005);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sidebar {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .sidebar-collapsed {
+            width: 85px;
+        }
+        
+        .sidebar-expanded {
+            width: 280px;
+        }
+        
+        .content-area {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hamburger-line {
+            transition: all 0.3s;
+        }
+        
+        .hamburger-active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .hamburger-active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger-active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Dark mode styles */
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .dark-mode .glass-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-mode .sidebar {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .dark-mode .input-field {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary), var(--primary-light));
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* تأثيرات خاصة */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* كارد الإحصائيات */
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+        
+        .stat-card:hover:after {
+            right: 100%;
+        }
+        
+        /* تأثيرات النص */
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* تأثيرات الأزرار */
+        .btn-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover .btn-icon {
+            transform: translateX(5px);
+        }
+        
+        /* تأثيرات الجدول */
+        .table-container {
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* تأثيرات النماذج */
+        .form-group {
+            position: relative;
+        }
+        
+        .form-label {
+            transition: all 0.3s ease;
+            transform-origin: right center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .input-field:focus + .form-label,
+        .input-field:not(:placeholder-shown) + .form-label {
+            transform: translateY(-25px) scale(0.85);
+            color: var(--primary);
+        }
+        
+        /* تأثيرات التنبيهات */
+        .alert {
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .alert-success {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .alert-danger {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .alert-warning {
+            border-color: rgba(245, 158, 11, 0.3);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .alert-info {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        /* تأثيرات القوائم */
+        .list-item {
+            transition: all 0.3s ease;
+        }
+        
+        .list-item:hover {
+            transform: translateX(-10px);
+        }
+        
+        /* تأثيرات الصور */
+        .img-hover {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .img-hover:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        /* تأثيرات الشريط الجانبي */
+        .sidebar-item {
+            position: relative;
+        }
+        
+        .sidebar-item:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--primary);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-item:hover:after {
+            transform: scaleY(1);
+        }
+        
+        /* تأثيرات الشريط العلوي */
+        .header-shadow {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+        }
+        
+        /* تأثيرات الصفحة الرئيسية */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+        
+        /* تأثيرات الأيقونات */
+        .icon-wrapper {
+            transition: all 0.3s ease;
+        }
+        
+        .icon-wrapper:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        /* تأثيرات الرسوم البيانية */
+        .chart-container {
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تأثيرات النوافذ المنبثقة */
+        .modal {
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* تأثيرات الأقسام */
+        .section-divider {
+            position: relative;
+        }
+        
+        .section-divider:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        /* تأثيرات البطاقات */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تأثيرات النصوص المتحركة */
+        .text-float {
+            animation: textFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* تأثيرات الخلفيات */
+        .bg-pattern {
+            background-image: radial-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* تأثيرات الأزرار الدائرية */
+        .circle-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .circle-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        
+        /* تأثيرات الصور الدائرية */
+        .circle-img {
+            transition: all 0.5s ease;
+        }
+        
+        .circle-img:hover {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+        
+        /* تأثيرات التحميل */
+        .loading-spinner {
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* تأثيرات التنقل */
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+        
+        /* تأثيرات القوائم المنسدلة */
+        .dropdown-menu {
+            animation: dropdownFadeIn 0.3s ease forwards;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes dropdownFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تأثيرات الأقسام المخفية */
+        .section-hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* تأثيرات الأزرار الكبيرة */
+        .big-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .big-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* تأثيرات العناوين */
+        .heading-underline {
+            position: relative;
+        }
+        
+        .heading-underline:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* تأثيرات البطاقات المتداخلة */
+        .stacked-card {
+            position: relative;
+        }
+        
+        .stacked-card:before, .stacked-card:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            background: inherit;
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+        
+        .stacked-card:before {
+            top: -5px;
+            left: -5px;
+            opacity: 0.7;
+        }
+        
+        .stacked-card:after {
+            top: -10px;
+            left: -10px;
+            opacity: 0.4;
+        }
+        
+        .stacked-card:hover:before {
+            top: -8px;
+            left: -8px;
+        }
+        
+        .stacked-card:hover:after {
+            top: -15px;
+            left: -15px;
+        }
+        
+        /* تأثيرات الأزرار العائمة */
+        .float-btn {
+            animation: floatBtn 3s ease-in-out infinite;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes floatBtn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* تأثيرات الأقسام الكبيرة */
+        .mega-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mega-section:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+            animation: rotateBg 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotateBg {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* تأثيرات الأزرار الصغيرة */
+        .micro-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .micro-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        /* تأثيرات النصوص البراقة */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+        }
+        
+        /* تأثيرات البطاقات الدوارة */
+        .rotate-card {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .rotate-card:hover {
+            transform: rotateY(15deg);
+        }
+        
+        /* تأثيرات الخلفيات المائية */
+        .water-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-bg:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(79, 70, 229, 0.05)" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            z-index: -1;
+            animation: waveAnim 10s linear infinite;
+        }
+        
+        @keyframes waveAnim {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden">
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="fixed inset-0 flex items-center justify-center p-4 z-50 transition-all duration-500">
+        <div class="glass-card w-full max-w-md p-8 transform transition-all duration-500 hover:scale-[1.02] stacked-card" data-aos="fade-up" data-aos-duration="800">
+            <div class="text-center mb-8">
+                <div class="flex justify-center mb-4 floating">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-inner circle-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2 glow-text">نظام إدارة المخزون</h1>
+                <p class="text-gray-200">سجل الدخول للوصول إلى لوحة التحكم المتكاملة</p>
+            </div>
+            
+            <form id="loginForm" class="space-y-6">
+                <div class="form-group">
+                    <input type="text" id="username" class="input-field w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" id="password" class="input-field w-full px-4 py-3 rounded-lg focus:outline-none" placeholder="كلمة المرور" required>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600 rounded">
+                        <span class="mr-2 text-sm">تذكرني</span>
+                    </label>
+                    <a href="#" class="text-sm text-indigo-300 hover:text-indigo-200">نسيت كلمة المرور؟</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full py-3 rounded-lg text-white font-semibold">
+                    <span class="btn-icon">تسجيل الدخول</span>
+                    <i class="fas fa-arrow-left mr-2"></i>
+                </button>
+            </form>
+            
+            <div id="loginAlert" class="alert hidden mt-4 p-3 rounded-lg text-center"></div>
+        </div>
+    </div>
+
+    <!-- الواجهة الرئيسية -->
+    <div id="mainApp" class="hidden min-h-screen">
+        <!-- الشريط الجانبي -->
+        <div id="sidebar" class="sidebar sidebar-expanded fixed right-0 top-0 h-full z-40 p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <span class="text-white font-bold text-lg sidebar-text">إدارة المخزون</span>
+                </div>
+                <button id="sidebarToggle" class="text-white hover:text-gray-300 transition-colors">
+                    <div class="hamburger">
+                        <div class="hamburger-line w-6 h-0.5 bg-white mb-1"></div>
+                        <div class="hamburger-line w-6 h-0.5 bg-white mb-1"></div>
+                        <div class="hamburger-line w-6 h-0.5 bg-white"></div>
+                    </div>
+                </button>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#" class="nav-item nav-link active flex items-center p-3 text-white rounded-lg sidebar-item" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">لوحة التحكم</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="inventory">
+                    <i class="fas fa-boxes w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">المخزون</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="incoming">
+                    <i class="fas fa-arrow-down w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">الواردات</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="outgoing">
+                    <i class="fas fa-arrow-up w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">الصادرات</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="reports">
+                    <i class="fas fa-chart-bar w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">التقارير</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="users">
+                    <i class="fas fa-users w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">المستخدمين</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="alerts">
+                    <i class="fas fa-bell w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">التنبيهات</span>
+                    <span id="alertBadge" class="bg-red-500 text-white text-xs rounded-full px-2 py-1 mr-2 hidden">0</span>
+                </a>
+                <a href="#" class="nav-item nav-link flex items-center p-3 text-white rounded-lg sidebar-item" data-page="settings">
+                    <i class="fas fa-cog w-6 text-center icon-wrapper"></i>
+                    <span class="mr-3 sidebar-text">الإعدادات</span>
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-6 left-6 right-6">
+                <div class="glass-card p-4 text-center">
+                    <div class="flex items-center justify-center mb-2">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center mr-2">
+                            <span class="text-white text-sm font-bold" id="userInitials">م</span>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-white text-sm font-semibold sidebar-text" id="currentUser">مدير النظام</p>
+                            <p class="text-gray-300 text-xs sidebar-text" id="userRole">مدير</p>
+                        </div>
+                    </div>
+                    <button id="logoutBtn" class="btn btn-danger w-full py-2 text-sm rounded-lg text-white">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        <span class="sidebar-text">تسجيل الخروج</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div id="mainContent" class="content-area mr-80 min-h-screen">
+            <!-- الشريط العلوي -->
+            <header class="header-shadow p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <h1 id="pageTitle" class="text-2xl font-bold text-white glow-text">لوحة التحكم</h1>
+                    </div>
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <!-- مفتاح الوضع الليلي -->
+                        <button id="darkModeToggle" class="btn circle-btn w-10 h-10 rounded-full bg-gray-700 text-white flex items-center justify-center">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        
+                        <!-- البحث -->
+                        <div class="relative">
+                            <input type="text" id="globalSearch" class="input-field pl-10 pr-4 py-2 rounded-lg w-64" placeholder="البحث في النظام...">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        
+                        <!-- التنبيهات -->
+                        <div class="relative">
+                            <button id="notificationBtn" class="btn circle-btn w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center relative">
+                                <i class="fas fa-bell"></i>
+                                <span id="notificationBadge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            </button>
+                            <div id="notificationDropdown" class="dropdown-menu absolute left-0 mt-2 w-80 rounded-lg shadow-lg hidden z-50">
+                                <div class="p-4">
+                                    <h3 class="text-white font-semibold mb-3">التنبيهات الحديثة</h3>
+                                    <div id="notificationList" class="space-y-2 max-h-64 overflow-y-auto">
+                                        <!-- سيتم ملء التنبيهات هنا -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- محتوى الصفحات -->
+            <div class="p-6">
+                <!-- لوحة التحكم -->
+                <div id="dashboardPage" class="page-content">
+                    <!-- بطاقات الإحصائيات -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="glass-card stat-card p-6 card-hover" data-aos="fade-up" data-aos-delay="100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-200 text-sm">إجمالي الأصناف</p>
+                                    <p class="text-3xl font-bold text-white" id="totalItems">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center icon-wrapper">
+                                    <i class="fas fa-boxes text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card stat-card p-6 card-hover" data-aos="fade-up" data-aos-delay="200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-200 text-sm">إجمالي الواردات</p>
+                                    <p class="text-3xl font-bold text-white" id="totalIncoming">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center icon-wrapper">
+                                    <i class="fas fa-arrow-down text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card stat-card p-6 card-hover" data-aos="fade-up" data-aos-delay="300">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-200 text-sm">إجمالي الصادرات</p>
+                                    <p class="text-3xl font-bold text-white" id="totalOutgoing">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center icon-wrapper">
+                                    <i class="fas fa-arrow-up text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card stat-card p-6 card-hover" data-aos="fade-up" data-aos-delay="400">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-200 text-sm">صافي الربح</p>
+                                    <p class="text-3xl font-bold text-white" id="totalProfit">0</p>
+                                </div>
+                                <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center icon-wrapper">
+                                    <i class="fas fa-dollar-sign text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الرسوم البيانية -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="glass-card chart-container p-6" data-aos="fade-up" data-aos-delay="500">
+                            <h3 class="text-white font-semibold mb-4">حركة المخزون الشهرية</h3>
+                            <canvas id="inventoryChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <div class="glass-card chart-container p-6" data-aos="fade-up" data-aos-delay="600">
+                            <h3 class="text-white font-semibold mb-4">توزيع الأصناف</h3>
+                            <canvas id="categoryChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- التنبيهات السريعة -->
+                    <div class="glass-card p-6" data-aos="fade-up" data-aos-delay="700">
+                        <h3 class="text-white font-semibold mb-4">التنبيهات السريعة</h3>
+                        <div id="quickAlerts" class="space-y-3">
+                            <!-- سيتم ملء التنبيهات هنا -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة المخزون -->
+                <div id="inventoryPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">إدارة المخزون</h2>
+                        <button id="addInventoryBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-plus mr-2"></i>
+                            إضافة صنف جديد
+                        </button>
+                    </div>
+                    
+                    <!-- فلاتر البحث -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" id="inventorySearch" class="input-field px-4 py-2 rounded-lg" placeholder="البحث في المخزون...">
+                            <select id="inventoryTypeFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الأنواع</option>
+                            </select>
+                            <select id="inventoryBrandFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الماركات</option>
+                            </select>
+                            <button id="inventoryFilterBtn" class="btn btn-primary px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-filter mr-2"></i>
+                                تطبيق الفلتر
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول المخزون -->
+                    <div class="glass-card table-container">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-800 bg-opacity-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">النوع</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">المقاس</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الماركة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الكمية المتبقية</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الحد الأدنى</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الموقع</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">آخر تحديث</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody" class="divide-y divide-gray-700">
+                                    <!-- سيتم ملء البيانات هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة الواردات -->
+                <div id="incomingPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">إدارة الواردات</h2>
+                        <button id="addIncomingBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-plus mr-2"></i>
+                            إضافة وارد جديد
+                        </button>
+                    </div>
+                    
+                    <!-- فلاتر البحث -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                            <input type="text" id="incomingSearch" class="input-field px-4 py-2 rounded-lg" placeholder="البحث في الواردات...">
+                            <input type="date" id="incomingDateFrom" class="input-field px-4 py-2 rounded-lg">
+                            <input type="date" id="incomingDateTo" class="input-field px-4 py-2 rounded-lg">
+                            <select id="incomingSupplierFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الموردين</option>
+                            </select>
+                            <button id="incomingFilterBtn" class="btn btn-primary px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-filter mr-2"></i>
+                                تطبيق الفلتر
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول الواردات -->
+                    <div class="glass-card table-container">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-800 bg-opacity-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">النوع</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">اسم المورد</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">المقاس</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الماركة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الكمية</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">السعر</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">التاريخ</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">رقم الفاتورة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="incomingTableBody" class="divide-y divide-gray-700">
+                                    <!-- سيتم ملء البيانات هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة الصادرات -->
+                <div id="outgoingPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">إدارة الصادرات</h2>
+                        <button id="addOutgoingBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-plus mr-2"></i>
+                            إضافة صادر جديد
+                        </button>
+                    </div>
+                    
+                    <!-- فلاتر البحث -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                            <input type="text" id="outgoingSearch" class="input-field px-4 py-2 rounded-lg" placeholder="البحث في الصادرات...">
+                            <input type="date" id="outgoingDateFrom" class="input-field px-4 py-2 rounded-lg">
+                            <input type="date" id="outgoingDateTo" class="input-field px-4 py-2 rounded-lg">
+                            <select id="outgoingCustomerFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع العملاء</option>
+                            </select>
+                            <button id="outgoingFilterBtn" class="btn btn-primary px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-filter mr-2"></i>
+                                تطبيق الفلتر
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول الصادرات -->
+                    <div class="glass-card table-container">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-800 bg-opacity-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">النوع</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">اسم العميل</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">المقاس</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الماركة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الكمية</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">السعر</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">التاريخ</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">رقم الفاتورة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="outgoingTableBody" class="divide-y divide-gray-700">
+                                    <!-- سيتم ملء البيانات هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة التقارير -->
+                <div id="reportsPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">التقارير والإحصائيات</h2>
+                        <button id="generateReportBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-file-export mr-2"></i>
+                            إنشاء تقرير
+                        </button>
+                    </div>
+                    
+                    <!-- خيارات التقرير -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <select id="reportType" class="input-field px-4 py-2 rounded-lg">
+                                <option value="inventory">تقرير المخزون</option>
+                                <option value="incoming">تقرير الواردات</option>
+                                <option value="outgoing">تقرير الصادرات</option>
+                                <option value="profit">تقرير الأرباح</option>
+                            </select>
+                            <input type="date" id="reportDateFrom" class="input-field px-4 py-2 rounded-lg">
+                            <input type="date" id="reportDateTo" class="input-field px-4 py-2 rounded-lg">
+                            <select id="reportFormat" class="input-field px-4 py-2 rounded-lg">
+                                <option value="excel">Excel</option>
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- الرسوم البيانية للتقارير -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="glass-card chart-container p-6">
+                            <h3 class="text-white font-semibold mb-4">تحليل المبيعات الشهرية</h3>
+                            <canvas id="salesChart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <div class="glass-card chart-container p-6">
+                            <h3 class="text-white font-semibold mb-4">أفضل المنتجات مبيعاً</h3>
+                            <canvas id="topProductsChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول التقارير المحفوظة -->
+                    <div class="glass-card table-container">
+                        <h3 class="text-white font-semibold p-6 pb-0">التقارير المحفوظة</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-800 bg-opacity-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">نوع التقرير</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">التاريخ</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">عدد العمليات</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">إجمالي القيمة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">ملاحظات</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportsTableBody" class="divide-y divide-gray-700">
+                                    <!-- سيتم ملء البيانات هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة المستخدمين -->
+                <div id="usersPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">إدارة المستخدمين</h2>
+                        <button id="addUserBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            إضافة مستخدم جديد
+                        </button>
+                    </div>
+                    
+                    <!-- فلاتر البحث -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" id="userSearch" class="input-field px-4 py-2 rounded-lg" placeholder="البحث في المستخدمين...">
+                            <select id="userRoleFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الأدوار</option>
+                                <option value="مدير">مدير</option>
+                                <option value="موظف">موظف</option>
+                                <option value="مراقب">مراقب</option>
+                            </select>
+                            <select id="userStatusFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الحالات</option>
+                                <option value="نشط">نشط</option>
+                                <option value="غير نشط">غير نشط</option>
+                            </select>
+                            <button id="userFilterBtn" class="btn btn-primary px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-filter mr-2"></i>
+                                تطبيق الفلتر
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- جدول المستخدمين -->
+                    <div class="glass-card table-container">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-800 bg-opacity-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الاسم الكامل</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">اسم المستخدم</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الدور</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الحالة</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">البريد الإلكتروني</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">آخر تسجيل دخول</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody" class="divide-y divide-gray-700">
+                                    <!-- سيتم ملء البيانات هنا -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صفحة التنبيهات -->
+                <div id="alertsPage" class="page-content hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">إدارة التنبيهات</h2>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button id="markAllReadBtn" class="btn btn-info px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-check-double mr-2"></i>
+                                تحديد الكل كمقروء
+                            </button>
+                            <button id="clearAlertsBtn" class="btn btn-danger px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-trash mr-2"></i>
+                                مسح التنبيهات
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- فلاتر التنبيهات -->
+                    <div class="glass-card p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <select id="alertTypeFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الأنواع</option>
+                                <option value="مخزون منخفض">مخزون منخفض</option>
+                                <option value="تنبيه نظام">تنبيه نظام</option>
+                                <option value="تحديث">تحديث</option>
+                            </select>
+                            <select id="alertPriorityFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الأولويات</option>
+                                <option value="عالي">عالي</option>
+                                <option value="متوسط">متوسط</option>
+                                <option value="منخفض">منخفض</option>
+                            </select>
+                            <select id="alertStatusFilter" class="input-field px-4 py-2 rounded-lg">
+                                <option value="">جميع الحالات</option>
+                                <option value="جديد">جديد</option>
+                                <option value="مقروء">مقروء</option>
+                            </select>
+                            <button id="alertFilterBtn" class="btn btn-primary px-4 py-2 rounded-lg text-white">
+                                <i class="fas fa-filter mr-2"></i>
+                                تطبيق الفلتر
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- قائمة التنبيهات -->
+                    <div class="space-y-4" id="alertsList">
+                        <!-- سيتم ملء التنبيهات هنا -->
+                    </div>
+                </div>
+
+                <!-- صفحة الإعدادات -->
+                <div id="settingsPage" class="page-content hidden">
+                    <h2 class="text-2xl font-bold text-white mb-6">إعدادات النظام</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- الإعدادات العامة -->
+                        <div class="glass-card p-6">
+                            <h3 class="text-white font-semibold mb-4">الإعدادات العامة</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">اسم الشركة</label>
+                                    <input type="text" id="companyName" class="input-field w-full px-4 py-2 rounded-lg" placeholder="اسم الشركة">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">العملة الافتراضية</label>
+                                    <select id="defaultCurrency" class="input-field w-full px-4 py-2 rounded-lg">
+                                        <option value="USD">دولار أمريكي (USD)</option>
+                                        <option value="EUR">يورو (EUR)</option>
+                                        <option value="SAR">ريال سعودي (SAR)</option>
+                                        <option value="AED">درهم إماراتي (AED)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">المنطقة الزمنية</label>
+                                    <select id="timezone" class="input-field w-full px-4 py-2 rounded-lg">
+                                        <option value="Asia/Riyadh">الرياض</option>
+                                        <option value="Asia/Dubai">دبي</option>
+                                        <option value="Asia/Kuwait">الكويت</option>
+                                        <option value="Asia/Qatar">الدوحة</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- إعدادات التنبيهات -->
+                        <div class="glass-card p-6">
+                            <h3 class="text-white font-semibold mb-4">إعدادات التنبيهات</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">الحد الأدنى للمخزون</label>
+                                    <input type="number" id="minStockLevel" class="input-field w-full px-4 py-2 rounded-lg" placeholder="10">
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">تنبيهات البريد الإلكتروني</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="emailNotifications">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">تنبيهات المخزون المنخفض</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="lowStockAlerts" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">تنبيهات النظام</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="systemAlerts" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- إعدادات النسخ الاحتياطي -->
+                        <div class="glass-card p-6">
+                            <h3 class="text-white font-semibold mb-4">النسخ الاحتياطي</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">النسخ الاحتياطي التلقائي</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="autoBackup" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">تكرار النسخ الاحتياطي</label>
+                                    <select id="backupFrequency" class="input-field w-full px-4 py-2 rounded-lg">
+                                        <option value="daily">يومي</option>
+                                        <option value="weekly">أسبوعي</option>
+                                        <option value="monthly">شهري</option>
+                                    </select>
+                                </div>
+                                <button id="createBackupBtn" class="btn btn-info w-full py-2 rounded-lg text-white">
+                                    <i class="fas fa-download mr-2"></i>
+                                    إنشاء نسخة احتياطية الآن
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- إعدادات الأمان -->
+                        <div class="glass-card p-6">
+                            <h3 class="text-white font-semibold mb-4">إعدادات الأمان</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-200 text-sm font-medium mb-2">مدة انتهاء الجلسة (بالدقائق)</label>
+                                    <input type="number" id="sessionTimeout" class="input-field w-full px-4 py-2 rounded-lg" placeholder="30">
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">المصادقة الثنائية</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="twoFactorAuth">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-200">تسجيل محاولات الدخول</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="logLoginAttempts" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- أزرار الحفظ -->
+                    <div class="flex justify-end space-x-4 space-x-reverse mt-6">
+                        <button id="resetSettingsBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-undo mr-2"></i>
+                            إعادة تعيين
+                        </button>
+                        <button id="saveSettingsBtn" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                            <i class="fas fa-save mr-2"></i>
+                            حفظ الإعدادات
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مؤشر التحميل -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="glass-card p-8 rounded-lg text-center">
+            <div class="loading-spinner w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p class="text-white text-lg">جاري التحميل...</p>
+        </div>
+    </div>
+
+    <!-- تنبيه Toast -->
+    <div id="toast" class="fixed top-4 left-4 glass-card p-4 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <div id="toastIcon" class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                <i class="fas fa-check text-white"></i>
+            </div>
+            <div>
+                <p id="toastTitle" class="text-white font-semibold"></p>
+                <p id="toastMessage" class="text-gray-200 text-sm"></p>
+            </div>
+            <button id="closeToast" class="text-gray-400 hover:text-white mr-4">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- أزرار التبديل للمفاتيح -->
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+
+    <!-- تضمين النوافذ المنبثقة -->
+    <div id="modals-container"></div>
+
+    <script>
+        // تحميل النوافذ المنبثقة
+        fetch('modals.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('modals-container').innerHTML = html;
+            })
+            .catch(error => console.error('Error loading modals:', error));
+    </script>
+
+    <!-- سكريپت JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="api_client.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+

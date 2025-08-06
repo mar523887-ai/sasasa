@@ -1,0 +1,387 @@
+<!-- النوافذ المنبثقة والنماذج -->
+
+<!-- نافذة إضافة/تعديل المخزون -->
+<div id="inventoryModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="modal-content glass-card w-full max-w-2xl p-8 rounded-lg mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h2 id="inventoryModalTitle" class="text-2xl font-bold text-white">إضافة صنف جديد</h2>
+            <button id="closeInventoryModal" class="text-gray-400 hover:text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="inventoryForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">النوع *</label>
+                    <input type="text" name="type" id="inventoryType" class="input-field w-full px-4 py-3 rounded-lg" placeholder="نوع المنتج" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">المقاس *</label>
+                    <input type="text" name="size" id="inventorySize" class="input-field w-full px-4 py-3 rounded-lg" placeholder="المقاس" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الماركة *</label>
+                    <input type="text" name="brand" id="inventoryBrand" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الماركة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الكمية *</label>
+                    <input type="number" name="quantity" id="inventoryQuantity" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الكمية" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الحد الأدنى *</label>
+                    <input type="number" name="minLevel" id="inventoryMinLevel" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الحد الأدنى" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الموقع *</label>
+                    <input type="text" name="location" id="inventoryLocation" class="input-field w-full px-4 py-3 rounded-lg" placeholder="موقع التخزين" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="block text-gray-200 text-sm font-medium mb-2">ملاحظات</label>
+                <textarea name="notes" id="inventoryNotes" class="input-field w-full px-4 py-3 rounded-lg" rows="3" placeholder="ملاحظات إضافية"></textarea>
+            </div>
+            
+            <div class="flex justify-end space-x-4 space-x-reverse">
+                <button type="button" id="cancelInventoryBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-times mr-2"></i>
+                    إلغاء
+                </button>
+                <button type="submit" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-save mr-2"></i>
+                    حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- نافذة إضافة/تعديل الواردات -->
+<div id="incomingModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="modal-content glass-card w-full max-w-3xl p-8 rounded-lg mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h2 id="incomingModalTitle" class="text-2xl font-bold text-white">إضافة وارد جديد</h2>
+            <button id="closeIncomingModal" class="text-gray-400 hover:text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="incomingForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">النوع *</label>
+                    <input type="text" name="type" id="incomingType" class="input-field w-full px-4 py-3 rounded-lg" placeholder="نوع المنتج" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">المقاس *</label>
+                    <input type="text" name="size" id="incomingSize" class="input-field w-full px-4 py-3 rounded-lg" placeholder="المقاس" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الماركة *</label>
+                    <input type="text" name="brand" id="incomingBrand" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الماركة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">اسم المورد *</label>
+                    <input type="text" name="supplier" id="incomingSupplier" class="input-field w-full px-4 py-3 rounded-lg" placeholder="اسم المورد" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الكمية *</label>
+                    <input type="number" name="quantity" id="incomingQuantity" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الكمية" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">السعر *</label>
+                    <input type="number" name="price" id="incomingPrice" class="input-field w-full px-4 py-3 rounded-lg" placeholder="السعر" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">العملة</label>
+                    <select name="currency" id="incomingCurrency" class="input-field w-full px-4 py-3 rounded-lg">
+                        <option value="USD">دولار أمريكي (USD)</option>
+                        <option value="SYP">ليرة سورية (SYP)</option>
+                        <option value="TRY">ليرة تركية (TRY)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">سعر الصرف</label>
+                    <input type="number" name="exchangeRate" id="incomingExchangeRate" class="input-field w-full px-4 py-3 rounded-lg" placeholder="سعر الصرف" step="0.01" min="0" value="1.0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">التاريخ *</label>
+                    <input type="date" name="date" id="incomingDate" class="input-field w-full px-4 py-3 rounded-lg" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">طريقة الدفع</label>
+                    <select name="paymentMethod" id="incomingPaymentMethod" class="input-field w-full px-4 py-3 rounded-lg">
+                        <option value="نقد">نقد</option>
+                        <option value="تحويل بنكي">تحويل بنكي</option>
+                        <option value="شيك">شيك</option>
+                        <option value="بطاقة ائتمان">بطاقة ائتمان</option>
+                        <option value="آجل">آجل</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">رقم الفاتورة *</label>
+                    <input type="text" name="invoiceNumber" id="incomingInvoiceNumber" class="input-field w-full px-4 py-3 rounded-lg" placeholder="رقم الفاتورة" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="block text-gray-200 text-sm font-medium mb-2">ملاحظات</label>
+                <textarea name="notes" id="incomingNotes" class="input-field w-full px-4 py-3 rounded-lg" rows="3" placeholder="ملاحظات إضافية"></textarea>
+            </div>
+            
+            <div class="flex justify-end space-x-4 space-x-reverse">
+                <button type="button" id="cancelIncomingBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-times mr-2"></i>
+                    إلغاء
+                </button>
+                <button type="submit" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-save mr-2"></i>
+                    حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- نافذة إضافة/تعديل الصادرات -->
+<div id="outgoingModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="modal-content glass-card w-full max-w-3xl p-8 rounded-lg mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h2 id="outgoingModalTitle" class="text-2xl font-bold text-white">إضافة صادر جديد</h2>
+            <button id="closeOutgoingModal" class="text-gray-400 hover:text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="outgoingForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">النوع *</label>
+                    <input type="text" name="type" id="outgoingType" class="input-field w-full px-4 py-3 rounded-lg" placeholder="نوع المنتج" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">المقاس *</label>
+                    <input type="text" name="size" id="outgoingSize" class="input-field w-full px-4 py-3 rounded-lg" placeholder="المقاس" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الماركة *</label>
+                    <input type="text" name="brand" id="outgoingBrand" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الماركة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">اسم العميل *</label>
+                    <input type="text" name="customer" id="outgoingCustomer" class="input-field w-full px-4 py-3 rounded-lg" placeholder="اسم العميل" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الكمية *</label>
+                    <input type="number" name="quantity" id="outgoingQuantity" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الكمية" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">السعر *</label>
+                    <input type="number" name="price" id="outgoingPrice" class="input-field w-full px-4 py-3 rounded-lg" placeholder="السعر" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">العملة</label>
+                    <select name="currency" id="outgoingCurrency" class="input-field w-full px-4 py-3 rounded-lg">
+                        <option value="USD">دولار أمريكي (USD)</option>
+                        <option value="SYP">ليرة سورية (SYP)</option>
+                        <option value="TRY">ليرة تركية (TRY)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">سعر الصرف</label>
+                    <input type="number" name="exchangeRate" id="outgoingExchangeRate" class="input-field w-full px-4 py-3 rounded-lg" placeholder="سعر الصرف" step="0.01" min="0" value="1.0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">التاريخ *</label>
+                    <input type="date" name="date" id="outgoingDate" class="input-field w-full px-4 py-3 rounded-lg" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">طريقة الدفع</label>
+                    <select name="paymentMethod" id="outgoingPaymentMethod" class="input-field w-full px-4 py-3 rounded-lg">
+                        <option value="نقد">نقد</option>
+                        <option value="تحويل بنكي">تحويل بنكي</option>
+                        <option value="شيك">شيك</option>
+                        <option value="بطاقة ائتمان">بطاقة ائتمان</option>
+                        <option value="آجل">آجل</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">رقم الفاتورة *</label>
+                    <input type="text" name="invoiceNumber" id="outgoingInvoiceNumber" class="input-field w-full px-4 py-3 rounded-lg" placeholder="رقم الفاتورة" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="block text-gray-200 text-sm font-medium mb-2">ملاحظات</label>
+                <textarea name="notes" id="outgoingNotes" class="input-field w-full px-4 py-3 rounded-lg" rows="3" placeholder="ملاحظات إضافية"></textarea>
+            </div>
+            
+            <div class="flex justify-end space-x-4 space-x-reverse">
+                <button type="button" id="cancelOutgoingBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-times mr-2"></i>
+                    إلغاء
+                </button>
+                <button type="submit" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-save mr-2"></i>
+                    حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- نافذة تأكيد الحذف -->
+<div id="deleteModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="modal-content glass-card w-full max-w-md p-8 rounded-lg mx-4">
+        <div class="text-center">
+            <div class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">تأكيد الحذف</h3>
+            <p id="deleteMessage" class="text-gray-200 mb-6">هل أنت متأكد من أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.</p>
+            
+            <div class="flex justify-center space-x-4 space-x-reverse">
+                <button id="cancelDeleteBtn" class="btn btn-primary px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-times mr-2"></i>
+                    إلغاء
+                </button>
+                <button id="confirmDeleteBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-trash mr-2"></i>
+                    حذف
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة إضافة/تعديل المستخدمين -->
+<div id="userModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="modal-content glass-card w-full max-w-2xl p-8 rounded-lg mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h2 id="userModalTitle" class="text-2xl font-bold text-white">إضافة مستخدم جديد</h2>
+            <button id="closeUserModal" class="text-gray-400 hover:text-white text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="userForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الاسم الكامل *</label>
+                    <input type="text" name="fullName" id="userFullName" class="input-field w-full px-4 py-3 rounded-lg" placeholder="الاسم الكامل" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">اسم المستخدم *</label>
+                    <input type="text" name="username" id="userUsername" class="input-field w-full px-4 py-3 rounded-lg" placeholder="اسم المستخدم" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">كلمة المرور *</label>
+                    <input type="password" name="password" id="userPassword" class="input-field w-full px-4 py-3 rounded-lg" placeholder="كلمة المرور" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">تأكيد كلمة المرور *</label>
+                    <input type="password" name="confirmPassword" id="userConfirmPassword" class="input-field w-full px-4 py-3 rounded-lg" placeholder="تأكيد كلمة المرور" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الدور *</label>
+                    <select name="role" id="userRole" class="input-field w-full px-4 py-3 rounded-lg" required>
+                        <option value="">اختر الدور</option>
+                        <option value="مدير">مدير</option>
+                        <option value="موظف">موظف</option>
+                        <option value="مراقب">مراقب</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">الحالة</label>
+                    <select name="status" id="userStatus" class="input-field w-full px-4 py-3 rounded-lg">
+                        <option value="نشط">نشط</option>
+                        <option value="غير نشط">غير نشط</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">البريد الإلكتروني</label>
+                    <input type="email" name="email" id="userEmail" class="input-field w-full px-4 py-3 rounded-lg" placeholder="البريد الإلكتروني">
+                </div>
+                
+                <div class="form-group">
+                    <label class="block text-gray-200 text-sm font-medium mb-2">رقم الهاتف</label>
+                    <input type="tel" name="phone" id="userPhone" class="input-field w-full px-4 py-3 rounded-lg" placeholder="رقم الهاتف">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="block text-gray-200 text-sm font-medium mb-2">الصلاحيات</label>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="المخزون" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>المخزون</span>
+                    </label>
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="الواردات" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>الواردات</span>
+                    </label>
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="الصادرات" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>الصادرات</span>
+                    </label>
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="التقارير" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>التقارير</span>
+                    </label>
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="المستخدمين" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>المستخدمين</span>
+                    </label>
+                    <label class="flex items-center text-gray-200">
+                        <input type="checkbox" name="permissions" value="الإعدادات" class="form-checkbox h-4 w-4 text-indigo-600 rounded mr-2">
+                        <span>الإعدادات</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-4 space-x-reverse">
+                <button type="button" id="cancelUserBtn" class="btn btn-danger px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-times mr-2"></i>
+                    إلغاء
+                </button>
+                <button type="submit" class="btn btn-success px-6 py-3 rounded-lg text-white">
+                    <i class="fas fa-save mr-2"></i>
+                    حفظ
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
